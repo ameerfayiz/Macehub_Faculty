@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+tools:showIn="navigation_view">
+
+<item android:title="Communicate">
+    <menu>
+        <item android:icon="@android:drawable/ic_menu_call" android:id="@+id/nav_administration" android:title="@string/administration" />
+        <item android:icon="@drawable/ce_foreground" android:id="@+id/nav_civil" android:title="@string/civil" />
+        <item android:icon="@drawable/cs_foreground" android:id="@+id/nav_cs" android:title="@string/computer_science" />
+        <item android:icon="@drawable/ec_foreground" android:id="@+id/nav_ec" android:title="@string/electronics_comm" />
+        <item android:icon="@drawable/ee_foreground" android:id="@+id/nav_eee" android:title="@string/electrical_and_electronics" />
+        <item android:icon="@drawable/me_foreground" android:id="@+id/nav_mech" android:title="@string/mechanical" />
+        <item android:icon="@drawable/mc_foreground" android:id="@+id/nav_mca" android:title="@string/mca" />
+        <item android:icon="@drawable/ma_foreground" android:id="@+id/nav_maths" android:title="@string/mathematics" />
+        <item android:icon="@drawable/sc_foreground" android:id="@+id/nav_science" android:title="@string/science" />
+    </menu>
+</item>
+    <item android:title="@string/other_options">
+        <menu>
+            <item android:icon="@android:drawable/star_big_off" android:id="@+id/nav_fav" android:title="Favourites" />
+            <item android:icon="@drawable/ic_menu_share" android:id="@+id/nav_share" android:title="@string/share" />
+        </menu>
+    </item>
+</menu>
