@@ -9,7 +9,7 @@
         android:id="@+id/tabs"
 
         android:layout_width="fill_parent"
-        android:layout_height="40sp"
+        android:layout_height="35dp"
         android:background="@color/accent"
         app:tabIndicatorColor="@color/divider"
         app:tabTextAppearance="@style/TabText" />
