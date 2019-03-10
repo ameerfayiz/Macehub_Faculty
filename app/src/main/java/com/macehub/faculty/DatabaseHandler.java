@@ -156,6 +156,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 arrayList.add(staff);
             } while (rawQuery.moveToNext());
         }
+
         return arrayList;
     }
 
@@ -163,7 +164,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase writableDatabase = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_FAV, Integer.valueOf(i));
-        return writableDatabase.update(TABLE_STAFFS, contentValues, "id = ?", new String[]{str});
+        int res= writableDatabase.update(TABLE_STAFFS, contentValues, "id = ?", new String[]{str});
+        writableDatabase.close();
+        return res;
     }
 
     public int updatestaff(staff staff) {

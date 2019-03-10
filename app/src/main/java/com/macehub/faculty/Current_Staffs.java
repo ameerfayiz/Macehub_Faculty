@@ -67,6 +67,9 @@ public class Current_Staffs extends Fragment {
             } else {
                 button.setBackground(Current_Staffs.this.getResources().getDrawable(R.drawable.ic_off));
             }
+
+            view.findViewById(R.id.call).setBackground(Current_Staffs.this.getResources().getDrawable(R.drawable.callbutton));
+
             ((Button) view.findViewById(R.id.call)).setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     String[] split = textView.getText().toString().replaceAll("\n", ":").split(":");
@@ -96,6 +99,8 @@ public class Current_Staffs extends Fragment {
                     builder.create().show();
                 }
             });
+
+
             button.setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     DatabaseHandler databaseHandler = new DatabaseHandler(Current_Staffs.this.getContext());

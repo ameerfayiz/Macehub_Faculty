@@ -20,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.support.v7.widget.Toolbar;
@@ -54,10 +55,17 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
     public static final int COUNT_MIN = 300;
     boolean database_is_free=true;
 
+    static
+    {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.dep_names = getResources().getStringArray(R.array.dep_names);
 
+
+        this.dep_names = getResources().getStringArray(R.array.dep_names);
         this.depcodes.add("ADM-CUR");
         this.depcodes.add("ADM-RET");
         this.depcodes.add("CIV-CUR");
@@ -113,7 +121,7 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
         stringBuilder.append(" Staffs !");
         Toast.makeText(applicationContext, stringBuilder.toString(), Toast.LENGTH_SHORT).show();
 
-        if (databaseHandler.getstaffsCount() < 100) {
+        if (databaseHandler.getstaffsCount() < COUNT_MIN) {
             Builder builder = new Builder(this);
             builder.setPositiveButton(R.string.ok, new OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -398,7 +406,7 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
 
 
 
-   
+
 
 
 

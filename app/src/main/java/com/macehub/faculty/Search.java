@@ -71,6 +71,10 @@ public class Search extends Fragment {
             } else {
                 button.setBackground(Search.this.getResources().getDrawable(R.drawable.ic_off));
             }
+
+
+            view.findViewById(R.id.call).setBackground(getResources().getDrawable(R.drawable.callbutton));
+
             ((Button) view.findViewById(R.id.call)).setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     String[] split = textView.getText().toString().replaceAll("\n", ":").split(":");
@@ -108,14 +112,14 @@ public class Search extends Fragment {
                         databaseHandler.setfav(1, ((staff) Search.this.staffslist.get(i)).getId());
                         databaseHandler.close();
                         button.setBackground(Search.this.getResources().getDrawable(R.drawable.ic_on));
-                        Toast.makeText(Search.this.getActivity(), "Made Favourite", 0).show();
+                        Toast.makeText(Search.this.getActivity(), "Made Favourite", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     ((staff) Search.this.staffslist.get(i)).setFav(0);
                     databaseHandler.setfav(0, ((staff) Search.this.staffslist.get(i)).getId());
                     databaseHandler.close();
                     button.setBackground(Search.this.getResources().getDrawable(R.drawable.ic_off));
-                    Toast.makeText(Search.this.getActivity(), "Deleted From Search", 0).show();
+                    Toast.makeText(Search.this.getActivity(), "Deleted From Search", Toast.LENGTH_SHORT).show();
                 }
             });
             return view;

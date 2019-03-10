@@ -69,6 +69,9 @@ public class Retired_Staffs extends Fragment {
             } else {
                 button.setBackground(Retired_Staffs.this.getResources().getDrawable(R.drawable.ic_off));
             }
+
+            view.findViewById(R.id.call).setBackground(getResources().getDrawable(R.drawable.callbutton));
+
             ((Button) view.findViewById(R.id.call)).setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     String[] split = textView.getText().toString().replaceAll("\n", ":").split(":");
