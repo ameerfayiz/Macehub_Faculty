@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
@@ -49,6 +51,7 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
     TabLayout tabs;
     ArrayList<String> urls = new ArrayList();
     int count = 0;
+    public static final int COUNT_MIN = 300;
     boolean database_is_free=true;
 
     protected void onCreate(Bundle bundle) {
@@ -232,27 +235,65 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
         }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     private boolean loadDb() {
-        progressDoalog = new ProgressDialog(this);
-        progressDoalog.setMax(100);
-        progressDoalog.setIndeterminate(true);
-        progressDoalog.setMessage("waiting...");
-        progressDoalog.setTitle("Hold your breath, it's just a breeze ! (Need Internet)");
-        progressDoalog.setProgressStyle(0);
-        progressDoalog.setCancelable(false);
-        progressDoalog.show();
-        present=0;
-        count=0;
+        if(isNetworkAvailable()){
+            progressDoalog = new ProgressDialog(this);
+            progressDoalog.setMax(100);
+            progressDoalog.setIndeterminate(true);
+            progressDoalog.setMessage("waiting...");
+            progressDoalog.setTitle("Hold your breath, it's just a breeze ! (Need Internet)");
+            progressDoalog.setProgressStyle(0);
+            progressDoalog.setCancelable(false);
+            progressDoalog.show();
+            present=0;
+            count=0;
         try {
             loadNewDB();
             //getWebsite((String) this.urls.get(this.present), (String) this.depcodes.get(this.present));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return true;
+            return true;
+
+        }else{
+
+            Builder builder = new Builder(this);
+            builder.setPositiveButton("Retry", new OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    MainActivity.this.loadDb();
+                }
+            });
+            builder.setNegativeButton("Cancel", new OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    MainActivity.this.Load_typical();
+                }
+            });
+            builder.setMessage("Internet Required for the contact details to be loaded ! retry again!").setTitle("Internet Required ");
+            builder.setCancelable(false);
+            builder.create().show();
+            return false;
+        }
     }
 
 
+    private void msg(String details,String title){
+        Builder builder = new Builder(this);
+        builder.setPositiveButton("OK", new OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setMessage(details).setTitle(title);
+        builder.setCancelable(false);
+        builder.create().show();
+    }
 
     private void loadNewDB(){
         for(int i=0;i<18;i++){
@@ -260,18 +301,35 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
             new Thread(new Runnable() {
                 @Override
                 public void run(){
-                    try {
-                        Document doc = Jsoup.connect(urls.get(finalI)).timeout(20 * 1000).get();
-                        Elements links = doc.select("div[class*=Staff-Holder col-all-12 staff-headl]");
-                        snipStaffs(links,depcodes.get(finalI));
-                    } catch (final IOException e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDoalog.setMessage(e.getMessage() + " "  + String.valueOf(finalI));
-                            }
-                        });
+                    int retries = 0,maxRetries=100;
+                    while(retries < maxRetries)
+                    {
+                        try
+                        {
+                            Document doc = Jsoup.connect(urls.get(finalI)).timeout(60* 1000).get();
+                            Elements links = doc.select("div[class*=Staff-Holder col-all-12 staff-headl]");
+                            retries=maxRetries;
+                            snipStaffs(links,depcodes.get(finalI));
+
+                        }
+                        catch(final Exception  e)
+                        {
+                            retries++;
+                            if(retries==maxRetries){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressDoalog.setMessage("Network Error !");
+                                        progressDoalog.dismiss();
+                                        Toast.makeText(getApplicationContext()," I cant fetch data right now because of poor network , Try again",Toast.LENGTH_SHORT).show();
+                                    }
+                                });}
+                        }
+
                     }
+
+
+
                 }
 
             }).start();
