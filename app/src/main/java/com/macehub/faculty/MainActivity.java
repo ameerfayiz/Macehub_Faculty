@@ -36,7 +36,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity<viewpager> extends AppCompatActivity implements OnNavigationItemSelectedListener {
+public class MainActivity<viewpager> extends AppCompatActivity implements OnNavigationItemSelectedListener  {
     private static FragmentManager fragmentManager;
     SearchAdapter SearchAdapter;
     TextView depLabel;
@@ -49,6 +49,8 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
     TabLayout tabs;
     ArrayList<String> urls = new ArrayList();
     int count = 0;
+    boolean database_is_free=true;
+
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.dep_names = getResources().getStringArray(R.array.dep_names);
@@ -242,7 +244,8 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
         present=0;
         count=0;
         try {
-            getWebsite((String) this.urls.get(this.present), (String) this.depcodes.get(this.present));
+            loadNewDB();
+            //getWebsite((String) this.urls.get(this.present), (String) this.depcodes.get(this.present));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,16 +255,87 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
 
 
     private void loadNewDB(){
+        for(int i=0;i<18;i++){
+            final int finalI = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run(){
+                    try {
+                        Document doc = Jsoup.connect(urls.get(finalI)).timeout(20 * 1000).get();
+                        Elements links = doc.select("div[class*=Staff-Holder col-all-12 staff-headl]");
+                        snipStaffs(links,depcodes.get(finalI));
+                    } catch (final IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDoalog.setMessage(e.getMessage() + " "  + String.valueOf(finalI));
+                            }
+                        });
+                    }
+                }
 
-        new Thread(new Runnable() {
+            }).start();
+        }
+    }
 
-            @Override
+    private void snipStaffs(Elements links,final String department){
+        final StringBuilder builder = new StringBuilder();
+        final ArrayList<staff> staffs = new ArrayList();
+        Elements dets;
+        Element span;
+        Element p;
+        String imlocation;
+        for (Element link : links) {
+            builder.setLength(0);
+            staff staff=new staff();
+            staff.setDepartment(department);
+            dets=link.getElementsByTag("li");
+            String name="null";
 
-            public void run(){
-
+            for (Element det : dets)
+            {   span=det.getElementsByTag("span").first();
+                p=det.getElementsByTag("p").first();
+                if(span!=null && p!=null) {
+                    String spanstring=span.text();
+                    final String pstring=p.text();
+                    if(spanstring.equalsIgnoreCase("name")){
+                        count++;
+                        name=pstring;
+                        staff.setName(pstring);
+                    }else {
+                        builder.append(spanstring).append(" : ").append(pstring).append("\n");
+                    }
+                }
             }
+            imlocation=link.getElementsByTag("img").attr("src");
+            staff.setImgloc(imlocation);
+            staff.setId(getIdFromIMG( name + imlocation.substring(imlocation.length() - 9, imlocation.length()-4)));
+            staff.setDetails(builder.toString());
+            staffs.add(staff);
+            staff=null;
 
-        }).run();
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressDoalog.setMessage(String.valueOf(count)+ " contacts Loaded !");
+
+                addStaffsToDB(staffs);
+
+                staffs.clear();
+
+                if(present<17){
+                    present+=1;
+                }
+                else{
+                    progressDoalog.cancel();
+                    Load_typical();
+                }
+            }});
+
+
+
     }
 
 
@@ -355,15 +429,17 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
     }
 
 
-    public boolean addStaffsToDB(ArrayList<staff> staffsToAdd){
-        DatabaseHandler dbhandle = new DatabaseHandler(getApplicationContext());
 
-        //Toast.makeText(getApplicationContext(),String.valueOf(staffsToAdd.size())+"TO ADD !",Toast.LENGTH_SHORT).show();
+    public boolean addStaffsToDB(ArrayList<staff> staffsToAdd){
+        while(!database_is_free);
+        database_is_free=false;
+        DatabaseHandler dbhandle = new DatabaseHandler(getApplicationContext());
         int count=staffsToAdd.size();
         for(int i=0;i<count;i++){
             dbhandle.addStaff(staffsToAdd.get(i));
         }
         dbhandle.close();
+        database_is_free=true;
         return true;
     }
 
