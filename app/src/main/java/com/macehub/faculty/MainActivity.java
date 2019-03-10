@@ -248,7 +248,7 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
             progressDoalog.setMax(100);
             progressDoalog.setIndeterminate(true);
             progressDoalog.setMessage("waiting...");
-            progressDoalog.setTitle("Hold your breath, it's just a breeze ! (Need Internet)");
+            progressDoalog.setTitle("Hold your breath, it's just a breeze ! (Need Internet \uD83D\uDE2C )");
             progressDoalog.setProgressStyle(0);
             progressDoalog.setCancelable(false);
             progressDoalog.show();
@@ -275,7 +275,7 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
                     MainActivity.this.Load_typical();
                 }
             });
-            builder.setMessage("Internet Required for the contact details to be loaded ! retry again!").setTitle("Internet Required ");
+            builder.setMessage("Internet Required for the contact details to be loaded \uD83D\uDE0B retry again!").setTitle("Internet Required ");
             builder.setCancelable(false);
             builder.create().show();
             return false;
