@@ -57,7 +57,7 @@
     <string name="current_staffs">Current Staffs</string>
     <string name="departments">Departments</string>
     <string name="electrical_and_electronics">Electrical &amp; Electronics</string>
-    <string name="electronics_comm">Electronics &amp; Communication</string>
+    <string name="electronics_comm">Electronics &amp; Comm.</string>
     <string name="fab_transformation_scrim_behavior">android.support.design.transformation.FabTransformationScrimBehavior</string>
     <string name="fab_transformation_sheet_behavior">android.support.design.transformation.FabTransformationSheetBehavior</string>
     <string name="faculty_contacts">Faculty Contacts</string>
