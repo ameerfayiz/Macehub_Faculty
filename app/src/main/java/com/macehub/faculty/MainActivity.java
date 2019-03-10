@@ -251,6 +251,18 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
 
 
 
+    private void loadNewDB(){
+
+        new Thread(new Runnable() {
+
+            @Override
+
+            public void run(){
+
+            }
+
+        }).run();
+    }
 
 
 
