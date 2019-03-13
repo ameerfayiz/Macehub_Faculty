@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Macehub_Faculty.iml" filepath="$PROJECT_DIR$/Macehub_Faculty.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/com.macehub.faculty.iml" filepath="$PROJECT_DIR$/com.macehub.faculty.iml" />
     </modules>
   </component>
 </project>
