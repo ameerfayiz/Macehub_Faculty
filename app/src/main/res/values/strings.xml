@@ -90,6 +90,9 @@
     <string name="textview">TextView</string>
     <string name="todo">TODO</string>
     <string name="url">URL</string>
+    <string name="dialog_message">MACEHUB is an initiative by Students of MACE with a pure motive to bring the possible academic and non-academic layers of MACE into a digital umbrella , Thanks for your support :)</string>
+    <string name="dialog_title">MACEHUB</string>
+    <string name="developer_ameer_fayiz">Developer : Ameer Fayiz (2k19 ece) \nMacehub Lead : Mathew varghese (2k19 ece)</string>
 
 </resources>
 

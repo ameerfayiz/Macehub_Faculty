@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -36,11 +37,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity<viewpager> extends AppCompatActivity implements OnNavigationItemSelectedListener  {
-    private static FragmentManager fragmentManager;
+public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener  {
+
     SearchAdapter SearchAdapter;
     TextView depLabel;
     String[] dep_names;
@@ -228,13 +228,16 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.action_about) {
+
             Builder builder = new Builder(this);
-            builder.setTitle("About MACEHUB").setMessage("MACEHUB is an initiative by Students of MACE with a pure motive to bring all the academic and non-academic layers of MACE into a digital umbrella , Thanks for your support :)");
             builder.setPositiveButton("OK", new OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
                 }
             });
+            builder.setView(R.layout.aboutme);
             builder.create().show();
+
+
             return true;
         } else if (itemId == R.id.action_load) {
             return loadDb();
@@ -479,7 +482,7 @@ public class MainActivity<viewpager> extends AppCompatActivity implements OnNavi
         Intent intent = new Intent("android.intent.action.SEND");
         intent.setType("text/plain");
         intent.putExtra("android.intent.extra.SUBJECT", "MACEHUB-Faculty");
-        intent.putExtra("android.intent.extra.TEXT", "Hey, I have found this usefull APP made in association with our MACEHUB, Containing all the staffs details of Mace, please give it a try !");
+        intent.putExtra("android.intent.extra.TEXT", "Hey, I have found this usefull APP made in association with our MACEHUB, Containing all the staffs details of Mace, please give it a try ! its pretty simple to use\uD83D\uDE0D \n\n Download it here NOW : https://play.google.com/store/apps/details?id=com.macehub.faculty");
         startActivity(Intent.createChooser(intent, "Share via"));
     }
 }

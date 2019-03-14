@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:name="com.macehub.faculty.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
