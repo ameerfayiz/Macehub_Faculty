@@ -21,45 +21,4 @@
         <item>Science &amp; Humanities</item>
     </array>
 
-    <array name="dep_link_name">
-        <item>ADM-CUR</item>
-        <item>ADM-RET</item>
-        <item>CIV-CUR</item>
-        <item>CIV-RET</item>
-        <item>MEC-CUR</item>
-        <item>MEC-RET</item>
-        <item>EEE-CUR</item>
-        <item>EEE-RET</item>
-        <item>ECE-CUR</item>
-        <item>ECE-RET</item>
-        <item>CSE-CUR</item>
-        <item>CSE-RET</item>
-        <item>MCA-CUR</item>
-        <item>MCA-RET</item>
-        <item>MAT-CUR</item>
-        <item>MAT-RET</item>
-        <item>SCH-CUR</item>
-        <item>SCH-RET</item>
-    </array>
-
-    <array name="listitems">
-        <item>@null</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-        <item>17</item>
-    </array>
 </resources>
